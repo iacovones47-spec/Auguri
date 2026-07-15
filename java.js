@@ -1499,186 +1499,237 @@ if (startGameButton) startGameButton.innerHTML="Inizia gioco ❤️";
 
 
 /*========================================
-    MINI GIOCO: RISALITA SPAZIALE 🌠
+        PARTE 4B
+    ACCHIAPPA LE STELLE CADENTI 🌠
 ========================================*/
 
+const startStarGameButton = document.getElementById("startStarGame");
+
 const starArea = document.getElementById("starArea");
-const startStarGame = document.getElementById("startStarGame");
-const starScoreText = document.getElementById("starScore");
-const starLivesText = document.getElementById("starLives");
-const starTimeText = document.getElementById("starTime");
-const starResult = document.getElementById("starResult");
 
-let gameActive = false;
-let score = 0;
-let lives = 3;
-let timeLeft = 30;
-let gameInterval;
-let spawnInterval;
-let playerX = 50; // Posizione percentuale del giocatore (50% = centro)
-let playerStar = null;
+const starScoreEl = document.getElementById("starScore");
 
-// Gestione movimento del giocatore tramite Click/Touch dentro l'area
-if (starArea) {
-    const movePlayer = (clientX) => {
-        if (!gameActive) return;
-        const rect = starArea.getBoundingClientRect();
-        let relativeX = ((clientX - rect.left) / rect.width) * 100;
-        // Limitiamo il movimento all'interno dei bordi
-        if (relativeX < 5) relativeX = 5;
-        if (relativeX > 95) relativeX = 95;
-        playerX = relativeX;
-        if (playerStar) {
-            playerStar.style.left = `${playerX}%`;
-        }
-    };
+const starLivesEl = document.getElementById("starLives");
 
-    // Mouse per PC
-    starArea.addEventListener("mousemove", (e) => movePlayer(e.clientX));
-    
-    // Touch per Smartphone
-    starArea.addEventListener("touchmove", (e) => {
-        if (e.touches.length > 0) {
-            movePlayer(e.touches[0].clientX);
-        }
-    }, { passive: true });
-}
+const starTimeEl = document.getElementById("starTime");
 
-if (startStarGame) {
-    startStarGame.addEventListener("click", startGame);
-}
+const starResultEl = document.getElementById("starResult");
 
-function startGame() {
-    if (gameActive) return;
 
-    // Reset Variabili
-    gameActive = true;
-    score = 0;
-    lives = 3;
-    timeLeft = 30;
-    playerX = 50;
-    starArea.innerHTML = ""; // Pulisce l'arena
-    starResult.textContent = "";
-    starScoreText.textContent = score;
-    starLivesText.textContent = lives;
-    starTimeText.textContent = timeLeft;
-    startStarGame.style.display = "none";
+let starScore = 0;
 
-    // Crea la stella del giocatore
-    playerStar = document.createElement("div");
-    playerStar.id = "playerStar";
-    playerStar.innerHTML = "✨";
-    playerStar.style.left = `${playerX}%`;
-    starArea.appendChild(playerStar);
+let starLives = 3;
 
-    // Timer di gioco (Conto alla rovescia)
-    gameInterval = setInterval(() => {
-        timeLeft--;
-        starTimeText.textContent = timeLeft;
-        if (timeLeft <= 0) {
-            endGame(true);
-        }
-    }, 1000);
+let starTime = 30;
 
-    // Generatore continuo di ostacoli e bonus che cadono verso il basso
-    spawnInterval = setInterval(() => {
-        createFallingElement();
-    }, 450); // Velocità di generazione elementi
-}
+let starRunning = false;
 
-function createFallingElement() {
-    if (!gameActive) return;
+let starSpawnTimer;
 
-    const element = document.createElement("div");
-    element.className = "gameElement";
+let starTimerInterval;
 
-    // Definiamo i tipi di oggetti
-    // Nuvole e Meteore fanno perdere vite, i cuori danno punti extra
-    const types = [
-        { icon: "☁️", type: "obstacle" },
-        { icon: "☁️", type: "obstacle" },
-        { icon: "☄️", type: "obstacle" }, // Meteora ostacolo
-        { icon: "❤️", type: "bonus" },    // Cuore bonus
-        { icon: "⭐", type: "bonus" }     // Stella bonus
-    ];
 
-    const randomType = types[Math.floor(Math.random() * types.length)];
-    element.innerHTML = randomType.icon;
-    element.dataset.type = randomType.type;
+if (startStarGameButton) {
+    startStarGameButton.addEventListener("click",()=>{
 
-    // Posizione orizzontale casuale
-    const randomLeft = Math.random() * 90 + 5;
-    element.style.left = `${randomLeft}%`;
-    element.style.top = "-40px";
-    starArea.appendChild(element);
+    if(starRunning) return;
 
-    let currentY = -40;
-    // La velocità aumenta man mano che il punteggio cresce per rendere il gioco dinamico
-    let speed = 4 + Math.floor(score / 10); 
+    starRunning=true;
 
-    function fall() {
-        if (!gameActive) {
-            element.remove();
-            return;
-        }
+    starScore=0;
 
-        currentY += speed;
-        element.style.top = `${currentY}px`;
+    starLives=3;
 
-        // Verifica collisione con il giocatore
-        if (currentY >= 290 && currentY <= 330) {
-            const elLeft = parseFloat(element.style.left);
-            // Tolleranza di collisione orizzontale
-            if (Math.abs(elLeft - playerX) < 8) {
-                if (element.dataset.type === "obstacle") {
-                    lives--;
-                    starLivesText.textContent = lives;
-                    // Effetto flash rosso visivo sulla perdita di una vita
-                    starArea.style.boxShadow = "inset 0 0 20px #ff0000";
-                    setTimeout(() => { starArea.style.boxShadow = "none"; }, 150);
-                    
-                    if (lives <= 0) {
-                        endGame(false);
-                    }
-                } else if (element.dataset.type === "bonus") {
-                    score += 5;
-                    starScoreText.textContent = score;
-                    // Effetto flash verde per il bonus preso
-                    starArea.style.boxShadow = "inset 0 0 20px #00ff00";
-                    setTimeout(() => { starArea.style.boxShadow = "none"; }, 150);
-                }
-                element.remove();
-                return;
-            }
-        }
+    starTime=30;
 
-        // Se l'elemento supera il fondo dello schermo (Schivato con successo!)
-        if (currentY > 350) {
-            if (element.dataset.type === "obstacle") {
-                score += 1; // 1 punto per ogni ostacolo schivato
-                starScoreText.textContent = score;
-            }
-            element.remove();
-        } else {
-            requestAnimationFrame(fall);
-        }
+    if(starScoreEl) starScoreEl.innerHTML=starScore;
+
+    if(starLivesEl) starLivesEl.innerHTML=starLives;
+
+    if(starTimeEl) starTimeEl.innerHTML=starTime;
+
+    if(starResultEl) starResultEl.innerHTML="";
+
+    startStarGameButton.innerHTML="Gioca! 🌠";
+
+    scheduleNextStar();
+
+    starTimerInterval=setInterval(()=>{
+
+    starTime--;
+
+    if(starTimeEl) starTimeEl.innerHTML=starTime;
+
+    if(starTime<=0){
+
+    endStarGame(false);
+
     }
 
-    requestAnimationFrame(fall);
+    },1000);
+
+    });
 }
 
-function endGame(win) {
-    gameActive = false;
-    clearInterval(gameInterval);
-    clearInterval(spawnInterval);
-    startStarGame.style.display = "block";
-    startStarGame.textContent = "Riprova 🌠";
 
-    if (win) {
-        starResult.innerHTML = `Tempo Scaduto! Super Stellare! ✨<br>Punteggio finale: <b>${score}</b>`;
-    } else {
-        starResult.innerHTML = `Oh no, sei caduta! ☁️<br>Punteggio finale: <b>${score}</b>`;
-    }
+function scheduleNextStar(){
+
+    if(!starRunning) return;
+
+    starSpawnTimer=setTimeout(()=>{
+
+    createStarOrCloud();
+
+    scheduleNextStar();
+
+    },650);
+
+}
+
+
+function createStarOrCloud(){
+
+if(!starRunning || !starArea) return;
+
+const isCloud = Math.random() < 0.32;
+
+const el=document.createElement("div");
+
+el.className = isCloud ? "gameCloud" : "gameStar";
+
+el.innerHTML = isCloud ? "☁️" : "⭐";
+
+starArea.appendChild(el);
+
+let x=Math.random()*88;
+
+let y=Math.random()*80;
+
+el.style.left=x+"%";
+
+el.style.top=y+"%";
+
+let size=28+Math.random()*26;
+
+el.style.fontSize=size+"px";
+
+const onCatch=()=>{
+
+if(isCloud){
+
+starLives--;
+
+if(starLivesEl) starLivesEl.innerHTML=starLives;
+
+el.style.transform="scale(1.3) rotate(15deg)";
+
+el.style.opacity="0";
+
+if(starLives<=0){
+
+endStarGame(true);
+
+}
+
+}
+
+else{
+
+starScore++;
+
+if(starScoreEl) starScoreEl.innerHTML=starScore;
+
+el.style.transform="scale(2)";
+
+el.style.opacity="0";
+
+createParticle(el.offsetLeft,el.offsetTop);
+
+}
+
+setTimeout(()=>{
+
+if(el && el.parentNode) el.remove();
+
+},250);
+
+};
+
+el.addEventListener("click",onCatch);
+
+el.addEventListener("touchstart",onCatch);
+
+setTimeout(()=>{
+
+if(el && el.parentNode) el.remove();
+
+},2200);
+
+}
+
+
+function endStarGame(livesLost){
+
+starRunning=false;
+
+clearTimeout(starSpawnTimer);
+
+clearInterval(starTimerInterval);
+
+if(starArea) starArea.innerHTML="";
+
+if(startStarGameButton) startStarGameButton.innerHTML="Inizia gioco 🌠";
+
+if(starResultEl){
+
+if(livesLost){
+
+starResultEl.innerHTML=
+
+`
+☁️ Le nuvole hanno coperto il cielo... <br>
+Punti raccolti: ${starScore}. Riprova! 🌠
+`;
+
+}
+
+else if(starScore>=20){
+
+starResultEl.innerHTML=
+
+`
+🌠 Hai catturato le stelle come nella nostra città preferita ❤️ <br>
+Punti: ${starScore}
+`;
+
+createLoveExplosion();
+
+}
+
+else if(starScore>=10){
+
+starResultEl.innerHTML=
+
+`
+⭐ Brava Eva! <br>
+Punti: ${starScore}
+`;
+
+}
+
+else{
+
+starResultEl.innerHTML=
+
+`
+✨ Ritenta, le stelle si nascondono in fretta <br>
+Punti: ${starScore}
+`;
+
+}
+
+}
+
 }
 
 
