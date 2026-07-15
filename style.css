@@ -3045,6 +3045,19 @@ font-size:.9rem;
   RICOMPONI IL RICORDO (PUZZLE)
 ====================================*/
 
+:root {
+    /* Dimensione di default per PC e Tablet */
+    --puzzle-size: 360px;
+}
+
+/* Media query specifica per Smartphone */
+@media (max-width: 480px) {
+    :root {
+        /* Riduce la dimensione su telefoni piccoli per non far uscire i blocchi */
+        --puzzle-size: 260px;
+    }
+}
+
 #puzzleGame {
     display: flex;
     flex-direction: column;
@@ -3052,13 +3065,13 @@ font-size:.9rem;
     align-items: center;
     width: 100%;
     min-height: 100vh;
-    padding: 20px;
+    padding: 15px;
     box-sizing: border-box;
 }
 
 #puzzleBox {
     width: 100%;
-    max-width: 450px;
+    max-width: 420px;
     background: rgba(255, 255, 255, .08);
     padding: 20px;
     border-radius: 30px;
@@ -3069,7 +3082,7 @@ font-size:.9rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     margin: 0 auto;
     box-sizing: border-box;
 }
@@ -3078,21 +3091,22 @@ font-size:.9rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    width: min(300px, 75vw);
-    height: min(300px, 75vw);
+    /* Usa le variabili responsive per larghezza e altezza */
+    width: var(--puzzle-size);
+    height: var(--puzzle-size);
     gap: 4px;
     margin: 0 auto;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 0 30px rgba(255, 150, 100, .4);
+    box-shadow: 0 0 30px rgba(255, 150, 100, .3);
     box-sizing: border-box;
 }
 
 .puzzleTile {
-    background-size: 300% 300%;
+    background-size: var(--puzzle-size) var(--puzzle-size); /* Forza lo sfondo a seguire la dimensione esatta della griglia */
     cursor: pointer;
     transition: .3s;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 .puzzleTile:hover {
@@ -3109,20 +3123,22 @@ font-size:.9rem;
     color: white;
     font-size: 1rem;
     box-shadow: 0 0 20px #ff8a5c;
-    margin-top: 10px;
+    margin-top: 5px;
+    width: auto;
 }
 
 #puzzleResult {
-    margin-top: 15px;
-    font-size: 1.2rem;
+    margin-top: 10px;
+    font-size: 1.1rem;
     text-align: center;
     min-height: 1.5em;
 }
 
 .gameSubtitle {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: center;
     opacity: 0.9;
+    padding: 0 10px;
 }
 
 
