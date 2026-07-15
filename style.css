@@ -3042,113 +3042,87 @@ font-size:.9rem;
 
 
 /*====================================
-        RICOMPONI IL RICORDO (PUZZLE)
+  RICOMPONI IL RICORDO (PUZZLE)
 ====================================*/
 
-#puzzleBox{
-
-width:90%;
-
-max-width:500px;
-
-background:rgba(255,255,255,.08);
-
-padding:25px;
-
-border-radius:30px;
-
-backdrop-filter:blur(20px);
-
-text-align:center;
-
+#puzzleGame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-
-#puzzleGrid{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-grid-template-rows:repeat(3,1fr);
-
-width:min(320px,80vw);
-
-height:min(320px,80vw);
-
-gap:4px;
-
-margin:0 auto;
-
-border-radius:20px;
-
-overflow:hidden;
-
-box-shadow:0 0 40px rgba(255,150,100,.4);
-
+#puzzleBox {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, .08);
+    padding: 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
-
-.puzzleTile{
-
-background-size:300% 300%;
-
-cursor:pointer;
-
-transition:.3s;
-
-border-radius:6px;
-
+#puzzleGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: min(300px, 75vw);
+    height: min(300px, 75vw);
+    gap: 4px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 150, 100, .4);
+    box-sizing: border-box;
 }
 
-
-.puzzleTile:hover{
-
-filter:brightness(1.1);
-
-transform:scale(.97);
-
+.puzzleTile {
+    background-size: 300% 300%;
+    cursor: pointer;
+    transition: .3s;
+    border-radius: 6px;
 }
 
-
-.puzzleTile.empty{
-
-background:rgba(255,255,255,.05);
-
-cursor:default;
-
+.puzzleTile:hover {
+    filter: brightness(1.1);
+    transform: scale(.97);
 }
 
-
-#shufflePuzzle{
-
-margin-top:25px;
-
-background:linear-gradient(135deg,#ff5ca8,#ff9a5a);
-
-color:white;
-
-border:none;
-
-padding:15px 35px;
-
-border-radius:50px;
-
-font-size:18px;
-
-cursor:pointer;
-
+#shufflePuzzle {
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff5ca8, #ff9a5a);
+    color: white;
+    font-size: 1rem;
+    box-shadow: 0 0 20px #ff8a5c;
+    margin-top: 10px;
 }
 
+#puzzleResult {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    text-align: center;
+    min-height: 1.5em;
+}
 
-#puzzleResult{
-
-margin-top:25px;
-
-font-size:1.3rem;
-
-color:#ffd1e8;
-
+.gameSubtitle {
+    margin-bottom: 20px;
+    text-align: center;
+    opacity: 0.9;
 }
 
 
