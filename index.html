@@ -29,6 +29,9 @@
     <!-- Luna -->
     <div class="moon"></div>
 
+    <!-- Stella nascosta -->
+    <div id="hiddenStar"></div>
+
     <!-- Musica --> 
     <audio id="music" loop>
         <source src="lalaland.mp3" type="audio/mpeg">
@@ -310,6 +313,8 @@ I nostri ricordi ❤️❤️❤️
 
         <span>Punti: <b id="gameScore">0</b></span>
 
+        <span>Record: <b id="gameRecord">0</b></span>
+
         <span>Tempo: <b id="gameTime">30</b>s</span>
 
     </div>
@@ -326,6 +331,69 @@ I nostri ricordi ❤️❤️❤️
 
 
     <h3 id="gameResult"></h3>
+
+</div>
+
+    </section>
+
+    <!-- Mini gioco: stelle cadenti -->
+
+    <section id="starGame">
+
+        <h2>Acchiappa le stelle cadenti 🌠</h2>
+
+        <p class="gameSubtitle">Prendi le stelle, evita le nuvole ☁️</p>
+
+        <div id="starBox">
+
+    <div id="starInfo">
+
+        <span>Punti: <b id="starScore">0</b></span>
+
+        <span>Vite: <b id="starLives">3</b></span>
+
+        <span>Tempo: <b id="starTime">30</b>s</span>
+
+    </div>
+
+
+    <button id="startStarGame">
+
+        Inizia gioco 🌠
+
+    </button>
+
+
+    <div id="starArea"></div>
+
+
+    <h3 id="starResult"></h3>
+
+</div>
+
+    </section>
+
+    <!-- Mini gioco: puzzle foto -->
+
+    <section id="puzzleGame">
+
+        <h2>Ricomponi il ricordo 🧩</h2>
+
+        <p class="gameSubtitle">Rimetti in ordine la nostra foto</p>
+
+        <div id="puzzleBox">
+
+    <div id="puzzleGrid"></div>
+
+
+    <button id="shufflePuzzle">
+
+        Rimescola ❤️
+
+    </button>
+
+
+    <h3 id="puzzleResult"></h3>
 
 </div>
 

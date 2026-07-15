@@ -1127,7 +1127,23 @@ if (moon) {
 
     },500);
 
-    if(moonClicks===5){
+    if(moonClicks===3){
+
+    showSecret(
+        `
+        🌙
+        <br><br>
+        "La notte appartiene
+        <br>
+        a chi continua a sognare."
+        <br><br>
+        ✨
+        `
+    );
+
+    }
+
+    if(moonClicks===6){
 
     showSecretMessage();
 
@@ -1221,6 +1237,8 @@ const gameTime = document.getElementById("gameTime");
 
 const gameResult = document.getElementById("gameResult");
 
+const gameRecord = document.getElementById("gameRecord");
+
 
 let scoreGame = 0;
 
@@ -1228,9 +1246,21 @@ let timeGame = 30;
 
 let gameRunning = false;
 
-let heartInterval;
+let heartSpawnTimer;
 
 let timerGame;
+
+const HEART_RECORD_KEY = "evaHeartGameBest";
+
+
+function getHeartRecord(){
+
+    return parseInt(localStorage.getItem(HEART_RECORD_KEY)) || 0;
+
+}
+
+
+if (gameRecord) gameRecord.innerHTML = getHeartRecord();
 
 
 /*========================================
@@ -1256,7 +1286,7 @@ if (startGameButton) {
 
     startGameButton.innerHTML="Gioca! ❤️";
 
-    heartInterval=setInterval(createGameHeart,700);
+    scheduleNextHeart();
 
     timerGame=setInterval(()=>{
 
@@ -1277,6 +1307,36 @@ if (startGameButton) {
 
 
 /*========================================
+        DIFFICOLTÀ CRESCENTE
+========================================*/
+
+function getHeartSpawnDelay(){
+
+    if(timeGame > 20) return 750;
+
+    if(timeGame > 10) return 550;
+
+    return 380;
+
+}
+
+
+function scheduleNextHeart(){
+
+    if(!gameRunning) return;
+
+    heartSpawnTimer=setTimeout(()=>{
+
+    createGameHeart();
+
+    scheduleNextHeart();
+
+    }, getHeartSpawnDelay());
+
+}
+
+
+/*========================================
         CREA CUORE
 ========================================*/
 
@@ -1286,7 +1346,9 @@ if(!gameRunning || !gameArea)return;
 
 const heart=document.createElement("div");
 
-heart.className="gameHeart";
+const isGolden = Math.random() < 0.15;
+
+heart.className = isGolden ? "gameHeart golden" : "gameHeart";
 
 heart.innerHTML="❤️";
 
@@ -1308,13 +1370,13 @@ heart.style.fontSize=size+"px";
 
 heart.addEventListener("click",()=>{
 
-catchHeart(heart);
+catchHeart(heart,isGolden);
 
 });
 
 heart.addEventListener("touchstart",()=>{
 
-catchHeart(heart);
+catchHeart(heart,isGolden);
 
 });
 
@@ -1335,9 +1397,9 @@ heart.remove();
         PRENDI CUORE
 ========================================*/
 
-function catchHeart(heart){
+function catchHeart(heart,isGolden){
 
-scoreGame++;
+scoreGame += isGolden ? 3 : 1;
 
 if (gameScore) gameScore.innerHTML=scoreGame;
 
@@ -1370,11 +1432,25 @@ function endGame(){
 
 gameRunning=false;
 
-clearInterval(heartInterval);
+clearTimeout(heartSpawnTimer);
 
 clearInterval(timerGame);
 
 if (gameArea) gameArea.innerHTML="";
+
+let isNewRecord=false;
+
+if(scoreGame > getHeartRecord()){
+
+localStorage.setItem(HEART_RECORD_KEY, scoreGame);
+
+if(gameRecord) gameRecord.innerHTML=scoreGame;
+
+isNewRecord=true;
+
+}
+
+let recordLine = isNewRecord ? "<br>🏆 Nuovo record! 🏆" : "";
 
 if (gameResult) {
     if(scoreGame>=25){
@@ -1385,6 +1461,7 @@ if (gameResult) {
      🎆 INCREDIBILE ❤️ <br><br>
     Eva ha un cuore velocissimo! <br>
     Sei ufficialmente la fidanzata perfetta 💕
+    ${recordLine}
     `;
 
     createLoveExplosion();
@@ -1398,6 +1475,7 @@ if (gameResult) {
     `
     ❤️ Brava Eva! <br><br>
     Hai catturato ${scoreGame} cuori
+    ${recordLine}
     `;
 
     }
@@ -1409,10 +1487,408 @@ if (gameResult) {
     `
      💗 Ritenta! <br>
     I cuori erano troppo veloci
+    ${recordLine}
     `;
 
     }
 }
+
+if (startGameButton) startGameButton.innerHTML="Inizia gioco ❤️";
+
+}
+
+
+/*========================================
+        PARTE 4B
+    ACCHIAPPA LE STELLE CADENTI 🌠
+========================================*/
+
+const startStarGameButton = document.getElementById("startStarGame");
+
+const starArea = document.getElementById("starArea");
+
+const starScoreEl = document.getElementById("starScore");
+
+const starLivesEl = document.getElementById("starLives");
+
+const starTimeEl = document.getElementById("starTime");
+
+const starResultEl = document.getElementById("starResult");
+
+
+let starScore = 0;
+
+let starLives = 3;
+
+let starTime = 30;
+
+let starRunning = false;
+
+let starSpawnTimer;
+
+let starTimerInterval;
+
+
+if (startStarGameButton) {
+    startStarGameButton.addEventListener("click",()=>{
+
+    if(starRunning) return;
+
+    starRunning=true;
+
+    starScore=0;
+
+    starLives=3;
+
+    starTime=30;
+
+    if(starScoreEl) starScoreEl.innerHTML=starScore;
+
+    if(starLivesEl) starLivesEl.innerHTML=starLives;
+
+    if(starTimeEl) starTimeEl.innerHTML=starTime;
+
+    if(starResultEl) starResultEl.innerHTML="";
+
+    startStarGameButton.innerHTML="Gioca! 🌠";
+
+    scheduleNextStar();
+
+    starTimerInterval=setInterval(()=>{
+
+    starTime--;
+
+    if(starTimeEl) starTimeEl.innerHTML=starTime;
+
+    if(starTime<=0){
+
+    endStarGame(false);
+
+    }
+
+    },1000);
+
+    });
+}
+
+
+function scheduleNextStar(){
+
+    if(!starRunning) return;
+
+    starSpawnTimer=setTimeout(()=>{
+
+    createStarOrCloud();
+
+    scheduleNextStar();
+
+    },650);
+
+}
+
+
+function createStarOrCloud(){
+
+if(!starRunning || !starArea) return;
+
+const isCloud = Math.random() < 0.32;
+
+const el=document.createElement("div");
+
+el.className = isCloud ? "gameCloud" : "gameStar";
+
+el.innerHTML = isCloud ? "☁️" : "⭐";
+
+starArea.appendChild(el);
+
+let x=Math.random()*88;
+
+let y=Math.random()*80;
+
+el.style.left=x+"%";
+
+el.style.top=y+"%";
+
+let size=28+Math.random()*26;
+
+el.style.fontSize=size+"px";
+
+const onCatch=()=>{
+
+if(isCloud){
+
+starLives--;
+
+if(starLivesEl) starLivesEl.innerHTML=starLives;
+
+el.style.transform="scale(1.3) rotate(15deg)";
+
+el.style.opacity="0";
+
+if(starLives<=0){
+
+endStarGame(true);
+
+}
+
+}
+
+else{
+
+starScore++;
+
+if(starScoreEl) starScoreEl.innerHTML=starScore;
+
+el.style.transform="scale(2)";
+
+el.style.opacity="0";
+
+createParticle(el.offsetLeft,el.offsetTop);
+
+}
+
+setTimeout(()=>{
+
+if(el && el.parentNode) el.remove();
+
+},250);
+
+};
+
+el.addEventListener("click",onCatch);
+
+el.addEventListener("touchstart",onCatch);
+
+setTimeout(()=>{
+
+if(el && el.parentNode) el.remove();
+
+},2200);
+
+}
+
+
+function endStarGame(livesLost){
+
+starRunning=false;
+
+clearTimeout(starSpawnTimer);
+
+clearInterval(starTimerInterval);
+
+if(starArea) starArea.innerHTML="";
+
+if(startStarGameButton) startStarGameButton.innerHTML="Inizia gioco 🌠";
+
+if(starResultEl){
+
+if(livesLost){
+
+starResultEl.innerHTML=
+
+`
+☁️ Le nuvole hanno coperto il cielo... <br>
+Punti raccolti: ${starScore}. Riprova! 🌠
+`;
+
+}
+
+else if(starScore>=20){
+
+starResultEl.innerHTML=
+
+`
+🌠 Hai catturato le stelle come nella nostra città preferita ❤️ <br>
+Punti: ${starScore}
+`;
+
+createLoveExplosion();
+
+}
+
+else if(starScore>=10){
+
+starResultEl.innerHTML=
+
+`
+⭐ Brava Eva! <br>
+Punti: ${starScore}
+`;
+
+}
+
+else{
+
+starResultEl.innerHTML=
+
+`
+✨ Ritenta, le stelle si nascondono in fretta <br>
+Punti: ${starScore}
+`;
+
+}
+
+}
+
+}
+
+
+/*========================================
+        PARTE 4C
+    RICOMPONI IL RICORDO 🧩
+========================================*/
+
+const puzzleGrid = document.getElementById("puzzleGrid");
+
+const shufflePuzzleButton = document.getElementById("shufflePuzzle");
+
+const puzzleResultEl = document.getElementById("puzzleResult");
+
+const PUZZLE_SIZE = 3;
+
+const PUZZLE_IMAGE = "foto1.jpeg";
+
+let puzzleOrder = [0,1,2,3,4,5,6,7,8];
+
+let puzzleSolved = false;
+
+
+function renderPuzzle(){
+
+if(!puzzleGrid) return;
+
+puzzleGrid.innerHTML="";
+
+puzzleOrder.forEach((piece,position)=>{
+
+const tile=document.createElement("div");
+
+if(piece===8){
+
+tile.className="puzzleTile empty";
+
+}
+
+else{
+
+tile.className="puzzleTile";
+
+let col=piece%PUZZLE_SIZE;
+
+let row=Math.floor(piece/PUZZLE_SIZE);
+
+tile.style.backgroundImage=`url('${PUZZLE_IMAGE}')`;
+
+tile.style.backgroundPosition=`${col*50}% ${row*50}%`;
+
+}
+
+tile.addEventListener("click",()=>{
+
+movePuzzleTile(position);
+
+});
+
+puzzleGrid.appendChild(tile);
+
+});
+
+}
+
+
+function movePuzzleTile(position){
+
+if(puzzleSolved) return;
+
+const blankPos = puzzleOrder.indexOf(8);
+
+const rowDiff = Math.abs(Math.floor(position/PUZZLE_SIZE)-Math.floor(blankPos/PUZZLE_SIZE));
+
+const colDiff = Math.abs((position%PUZZLE_SIZE)-(blankPos%PUZZLE_SIZE));
+
+const isAdjacent = (rowDiff+colDiff)===1;
+
+if(!isAdjacent) return;
+
+[puzzleOrder[position],puzzleOrder[blankPos]] = [puzzleOrder[blankPos],puzzleOrder[position]];
+
+renderPuzzle();
+
+checkPuzzleSolved();
+
+}
+
+
+function checkPuzzleSolved(){
+
+const solved = puzzleOrder.every((piece,index)=>piece===index);
+
+if(solved){
+
+puzzleSolved=true;
+
+if(puzzleResultEl){
+
+puzzleResultEl.innerHTML="Hai ricomposto il nostro ricordo ❤️";
+
+}
+
+createLoveExplosion();
+
+}
+
+}
+
+
+function shufflePuzzle(){
+
+puzzleSolved=false;
+
+if(puzzleResultEl) puzzleResultEl.innerHTML="";
+
+puzzleOrder=[0,1,2,3,4,5,6,7,8];
+
+let blankPos=8;
+
+for(let i=0;i<120;i++){
+
+const neighbors=[];
+
+const row=Math.floor(blankPos/PUZZLE_SIZE);
+
+const col=blankPos%PUZZLE_SIZE;
+
+if(row>0) neighbors.push(blankPos-PUZZLE_SIZE);
+
+if(row<PUZZLE_SIZE-1) neighbors.push(blankPos+PUZZLE_SIZE);
+
+if(col>0) neighbors.push(blankPos-1);
+
+if(col<PUZZLE_SIZE-1) neighbors.push(blankPos+1);
+
+const swapWith=neighbors[Math.floor(Math.random()*neighbors.length)];
+
+[puzzleOrder[blankPos],puzzleOrder[swapWith]]=[puzzleOrder[swapWith],puzzleOrder[blankPos]];
+
+blankPos=swapWith;
+
+}
+
+renderPuzzle();
+
+}
+
+
+if(shufflePuzzleButton){
+
+shufflePuzzleButton.addEventListener("click",shufflePuzzle);
+
+}
+
+
+if(puzzleGrid){
+
+shufflePuzzle();
 
 }
 
@@ -1509,6 +1985,150 @@ clickCounter=0;
 
 
 /*========================================
+        EASTER EGG "LALALAND" ✨
+========================================*/
+
+let typedLL="";
+
+document.addEventListener("keydown",(e)=>{
+
+typedLL += e.key.toLowerCase();
+
+if(typedLL.length > 8){
+
+typedLL = typedLL.slice(-8);
+
+}
+
+if(typedLL==="lalaland"){
+
+showSecret(
+    `
+    ✨🎭
+    <br><br>
+    "Ogni sognatore ha bisogno
+    <br>
+    di un posto dove guardare le stelle."
+    <br><br>
+    Il nostro posto è qui. ❤️
+    `
+);
+
+goldenBurst();
+
+typedLL="";
+
+}
+
+});
+
+
+function goldenBurst(){
+
+for(let i=0;i<24;i++){
+
+let star=document.createElement("div");
+
+star.innerHTML="✨";
+
+star.className="quizExplosion";
+
+star.style.left="50%";
+
+star.style.top="40%";
+
+star.style.setProperty("--x",(Math.random()*500-250)+"px");
+
+star.style.setProperty("--y",(Math.random()*500-250)+"px");
+
+document.body.appendChild(star);
+
+setTimeout(()=>{
+
+star.remove();
+
+},2000);
+
+}
+
+}
+
+
+/*========================================
+        STELLA NASCOSTA ⭐
+========================================*/
+
+const hiddenStar=document.getElementById("hiddenStar");
+
+if(hiddenStar){
+
+hiddenStar.addEventListener("click",()=>{
+
+showSecret(
+    `
+    ⭐
+    <br><br>
+    Hai trovato la stella nascosta.
+    <br><br>
+    Come te, brilla anche quando nessuno la guarda. ❤️
+    `
+);
+
+goldenBurst();
+
+});
+
+}
+
+
+/*========================================
+        DOPPIO TAP SULLE FOTO 📸
+========================================*/
+
+const galleryPhotos = document.querySelectorAll(".gallery-track img");
+
+const photoCaptions = [
+
+"Il tramonto più bello era solo lo sfondo. ❤️",
+
+"Anche mossa, resta una delle mie foto preferite. 📸",
+
+"Un bacio, mille ricordi da custodire. 💫",
+
+"Distanti dallo schermo, vicinissimi nel cuore. ❤️",
+
+"Quel giorno ho capito che ti avrei scelta ancora. ✨"
+
+];
+
+if(galleryPhotos.length > 0){
+
+galleryPhotos.forEach((img,i)=>{
+
+let lastTap=0;
+
+img.addEventListener("click",()=>{
+
+const now=Date.now();
+
+if(now-lastTap<400){
+
+showSecret(photoCaptions[i % photoCaptions.length]);
+
+createLoveExplosion();
+
+}
+
+lastTap=now;
+
+});
+
+});
+
+}
+
+
+/*========================================
         MESSAGGIO SEGRETO
 ========================================*/
 
@@ -1563,67 +2183,6 @@ resetInactive();
 
 
 
-
-/*========================================
-        CLICK LUNA SPECIALE
-========================================*/
-
-
-const secretMoon=document.querySelector(".moon");
-
-
-let moonCounter=0;
-
-
-
-if(secretMoon){
-
-
-secretMoon.addEventListener("click",()=>{
-
-
-moonCounter++;
-
-
-
-if(moonCounter===3){
-
-
-
-showSecret(
-
-`
-
-🌙
-
-<br><br>
-
-"La notte appartiene
-
-<br>
-
-a chi continua a sognare."
-
-<br><br>
-
-✨
-
-`
-
-);
-
-
-
-moonCounter=0;
-
-
-}
-
-
-});
-
-
-}
 
 /*========================================
             PARTE 6
