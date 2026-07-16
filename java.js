@@ -1959,32 +1959,6 @@ heart.remove();
 
 
 /*========================================
-        16 CLIC ❤️
-========================================*/
-
-let clickCounter=0;
-
-document.addEventListener("click",(e)=>{
-
-clickCounter++;
-
-if(clickCounter===16){
-
-showSecret(
-
-"16 Maggio 2026 ❤️<br><br>" +
-"Il giorno in cui è iniziato il nostro film."
-
-);
-
-clickCounter=0;
-
-}
-
-});
-
-
-/*========================================
         EASTER EGG "LALALAND" ✨
 ========================================*/
 
@@ -2341,23 +2315,49 @@ function finalScreenRemove(){
         CONTROLLO MUSICA 🎵
 ========================================*/
 
-const musicButton=document.getElementById("musicControl");
-let musicPlaying=false;
+const playlist = [
+    "lalaland.mp3",
+    "City_of_stars.mp3",
+    "A_Lovely_Night.mp3",
+    "Another_Day_of_Sun.mp3"
+];
+let currentTrackIndex = 0;
+let musicPlaying = false;
 
-if(musicButton){
-    musicButton.addEventListener("click",()=>{
-        // Controlla lo stato reale della traccia anziché affidarsi solo alla variabile
-        if(music && !music.paused){
+const musicSource = document.getElementById("musicSource");
+const musicButton = document.getElementById("musicControl");
+
+if (music) {
+    music.addEventListener("ended", () => {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+        playTrack(currentTrackIndex);
+    });
+}
+
+function playTrack(index) {
+    if (music && musicSource) {
+        musicSource.src = playlist[index];
+        music.load();
+        music.play().then(() => {
+            musicPlaying = true;
+            if (musicButton) musicButton.innerHTML = "🎵";
+        }).catch(err => console.log(err));
+    }
+}
+
+if (musicButton) {
+    musicButton.addEventListener("click", () => {
+        if (!music) return;
+        if (musicPlaying) {
             music.pause();
-            musicButton.innerHTML="🔇";
-            musicPlaying=false;
+            musicPlaying = false;
+            musicButton.innerHTML = "🔇";
+        } else {
+            music.play().then(() => {
+                musicPlaying = true;
+                musicButton.innerHTML = "🎵";
+            }).catch(err => console.log(err));
         }
-        else{
-            if(music) music.play();
-            musicButton.innerHTML="🎵";
-            musicPlaying=true;
-        }
-        vibratePhone();
     });
 }
 
@@ -2472,3 +2472,4 @@ window.addEventListener("load", ()=>{
         console.log("❤️ Benvenuta nel film di Eva");
     },1000);
 });
+
