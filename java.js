@@ -879,19 +879,10 @@ heart.remove();
 
 loadQuestion();
 
-
-
-
-/*========================================
-        ESPLOSIONE AMORE BIS (Rimosso duplicato problematico)
-========================================*/
-
-
 /*========================================
         PARTE 3
     MAGIA DEL CIELO ❤️
 ========================================*/
-
 
 /*========================================
         CUORI DAL CIELO
@@ -2126,7 +2117,9 @@ secret.remove();
 
 
 /*========================================
-        KONAMI CODE ========================================*/ 
+        KONAMI CODE 
+========================================*/ 
+
 let konami=[]; 
 const code=[ "arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a" ]; 
 document.addEventListener("keydown",(e)=>{ 
@@ -2150,12 +2143,6 @@ showSecret( ` 💭 <br><br> "Anche quando non fai niente, <br> sei il mio pensie
 document.addEventListener("mousemove", resetInactive);
 document.addEventListener("touchstart", resetInactive);
 resetInactive();
-
-
-
-
-
-
 
 
 /*========================================
