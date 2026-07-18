@@ -2928,36 +2928,54 @@ font-size:.9rem;
 }
 
 
-/*====================================
-        STELLA NASCOSTA (EASTER EGG)
-====================================*/
+/*=========================
+    STELLA NASCOSTA (FIX PER TELEFONO)
+=========================*/
+#hiddenStar {
+    position: fixed;
+    
+    /* Posizionamento sicuro sui lati, ma staccato dai bordi dello schermo */
+    bottom: 15%;  /* Al centro-basso dello schermo, sopra la barra di navigazione */
+    right: 8%;    /* Spostata verso l'interno per non essere coperta dalle dita */
+    
+    width: 32px;  /* Dimensione perfetta: visibile ma discreta */
+    height: 32px;
+    background: gold;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    box-shadow: 0 0 15px gold, 0 0 30px yellow;
+    cursor: pointer;
+    z-index: 9999;
+    opacity: 0.25; /* Abbastanza visibile sul telefono per essere trovata */
+    transition: opacity 0.3s, transform 0.2s;
+}
 
-#hiddenStar{
+#hiddenStar:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
 
-position:fixed;
+/* =======================================================
+   IL TRUCCO PER IL TELEFONO:
+   Questo crea un'area di contatto INVISIBILE enorme (80px per 80px)
+   intorno alla stella. Anche se Eva tocca vicino alla stella, il telefono la prenderà!
+   ======================================================= */
+#hiddenStar::before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: -24px;
+    right: -24px;
+    bottom: -24px;
+    background: transparent; /* Invisibile ad occhio nudo, ma sensibilissima al tocco */
+}
 
-bottom:14px;
-
-left:14px;
-
-width:6px;
-
-height:6px;
-
-background:white;
-
-border-radius:50%;
-
-opacity:.35;
-
-box-shadow:0 0 6px white;
-
-cursor:pointer;
-
-z-index:5;
-
-animation:twinkle 4s infinite;
-
+/* Ottimizzazione specifica se lo schermo è piccolo (Smartphone) */
+@media (max-width: 600px) {
+    #hiddenStar {
+        bottom: 20%; /* Alzata leggermente per evitare i pollici quando si scorre la pagina */
+        right: 12%; 
+        opacity: 0.35; /* Un pelino più visibile sui display sotto la luce del sole */
+    }
 }
 
 /*========================================
