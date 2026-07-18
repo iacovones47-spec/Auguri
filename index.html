@@ -1,365 +1,139 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Eva ❤️❤️❤️</title>
-
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
     <div id="stars"></div>
-
     <div id="hearts"></div>
-
     <div class="moon"></div>
 
     <audio id="music">
         <source id="musicSource" src="lalaland.mp3" type="audio/mpeg">
     </audio>
-
-    <div id="musicControl">
-
-    🎵
-
-    </div>
+    <div id="musicControl" aria-label="Controlla la musica">🎵</div>
 
     <section id="intro">
-
         <h2>In un universo di miliardi di stelle, la mia orbita ha scelto te...</h2>
-
-        <button id="startButton">
-
-            Inizia il nostro film incantato ❤️
-
-        </button>
-
+        <button id="startButton">Inizia il nostro film incantato ❤️</button>
     </section>
 
     <section id="home" class="hidden">
-
         <h1>Eva ❤️❤️❤️</h1>
-
         <h3>Il nostro frammento di eternità</h3>
-
-        <p class="date">
-
-            Scritto nel cielo dal 16 Maggio 2026
-
-        </p>
-
+        <p class="date">Scritto nel cielo dal 16 Maggio 2026</p>
         <div id="timer">
-
-            <div>
-
-                <span id="days">00</span>
-
-                <small>Giorni</small>
-
-            </div>
-
-            <div>
-
-                <span id="hours">00</span>
-
-                <small>Ore</small>
-
-            </div>
-
-            <div>
-
-                <span id="minutes">00</span>
-
-                <small>Minuti</small>
-
-            </div>
-
-            <div>
-
-                <span id="seconds">00</span>
-
-                <small>Secondi</small>
-
-            </div>
-
+            <div><span id="days">00</span><small>Giorni</small></div>
+            <div><span id="hours">00</span><small>Ore</small></div>
+            <div><span id="minutes">00</span><small>Minuti</small></div>
+            <div><span id="seconds">00</span><small>Secondi</small></div>
         </div>
-
     </section>
 
     <section id="gallery">
-
-        <h2>
-            I fotogrammi della nostra felicità ❤️❤️❤️
-        </h2>
-
-
+        <h2>I fotogrammi della nostra felicità ❤️❤️❤️</h2>
         <div class="gallery-container">
-
-
-            <button class="prev">
-                ❮
-            </button>
-
-
+            <button class="prev" aria-label="Foto precedente">❮</button>
             <div class="gallery-window">
-
-
                 <div class="gallery-track">
-
-
-                    <img src="foto1.jpeg">
-
-                    <img src="foto2.jpeg">
-
-                    <img src="foto3.jpeg">
-
-                    <img src="foto4.jpeg">
-
-                    <img src="foto5.jpeg">
-
-
+                    <img src="foto1.jpeg" alt="Ricordo con Eva 1">
+                    <img src="foto2.jpeg" alt="Ricordo con Eva 2">
+                    <img src="foto3.jpeg" alt="Ricordo con Eva 3">
+                    <img src="foto4.jpeg" alt="Ricordo con Eva 4">
+                    <img src="foto5.jpeg" alt="Ricordo con Eva 5">
                 </div>
-
-
             </div>
-
-
-
-            <button class="next">
-                ❯
-            </button>
-
-
+            <button class="next" aria-label="Foto successiva">❯</button>
         </div>
-
-
     </section>
 
     <section id="quiz">
-
         <h2>Quanto battono all'unisono i nostri cuori? ❤️</h2>
-
         <div id="quizContainer">
-
-            <div id="progressBar">
-
-                <div id="progress"></div>
-
-            </div>
-
-
-            <h3 id="question">
-                Domanda
-            </h3>
-
-
-            <div id="answers">
-
-            </div>
-
-
-            <p id="score">
-
-            </p>
-
+            <div id="progressBar"><div id="progress"></div></div>
+            <h3 id="question">Domanda</h3>
+            <div id="answers"></div>
+            <p id="score"></p>
         </div>
-
     </section>
 
     <section id="lalaland">
-
         <h2>City of Stars... 🌙</h2>
-
         <p>
             "Brindo ai folli e ai sognatori, a chi crede ancora nei miracoli nascosti negli sguardi." <br>
             Perché in questa immensa città di luci, tu sei l'unica stella che illumina davvero il mio cammino.
         </p>
-
         <div class="moon-big"></div>
-
     </section>
 
     <section id="letter">
-
-        <h2>
-            Una lettera scritta tra le costellazioni ❤️
-        </h2>
-
-
+        <h2>Una lettera scritta tra le costellazioni ❤️</h2>
         <div class="envelope" id="envelope">
-
-
             <div class="flap"></div>
-
-
             <div class="paper">
-
-
                 <div id="letterContent">
-
-
-                    <p>
-                        Mia dolcissima Eva, ❤️
-                    </p>
-
-
-                    <p>
-                        Se la nostra vita fosse una colonna sonora, tu saresti quel tema melodico al pianoforte che entra all'improvviso, stravolge l'intero spartito e colora ogni stanza di una luce nuova. Non sapevo come dimostrarti quanto vali per me, così ho provato a rubare un pizzico di magia al cielo per custodirla in questo posto segreto.
-                    </p>
-
-
-                    <p>
-                        Il 16 maggio 2026 i riflettori si sono accesi delicatamente su di noi ed è iniziato il nostro bellissimo film. Non cerchiamo una sceneggiatura perfetta o priva di errori, perché la poesia più pura sta proprio nei nostri passi di danza improvvisati nel buio, nelle risate nate dal nulla e nei respiri sinceri sospesi nel tempo.
-                    </p>
-
-
-                    <p>
-                        So bene quanto ti emozioni la magia nostalgica di <i>La La Land</i>, quel valzer leggero e senza gravità tra le stelle del Planetario. Ecco, ogni singola volta che incrocio i tuoi occhi mi sento esattamente così: come se il mondo intorno sfumasse e rimanessimo solo noi. Tu porti con te le note eterne, misteriose e affascinanti di <i>Hotel California</i>; io ti rispondo stringendoti forte con la dolcezza autentica di <i>Gabri</i> di Vasco, sussurrandoti al cuore che <i>"adesso c'è una cosa che... che non ti ho detto mai... che sei speciale"</i>.
-                    </p>
-
-
-                    <p>
-                        Grazie per aver dato un significato del tutto nuovo alla parola "noi", per la cura che metti in ogni piccolo istante e per aver reso questi primi due mesi il viaggio più dolce della mia vita.
-                    </p>
-
-
-                    <p>
-                        E se anche questa città di stelle splendesse per miliardi di anni ancora, tra tutte le combinazioni possibili del destino e del tempo...
-                    </p>
-
-
-                    <p>
-                        Io sceglierei ancora te. Stasera, domani, per sempre. ❤️
-                    </p>
-
-
-                    <p>
-                        Buon secondo mesiversario, amore mio.
-                    </p>
-
-
+                    <p>Mia dolcissima Eva, ❤️</p>
+                    <p>Se la nostra vita fosse una colonna sonora, tu saresti quel tema melodico al pianoforte che entra all'improvviso, stravolge l'intero spartito e colora ogni stanza di una luce nuova. Non sapevo come dimostrarti quanto vali per me, così ho provato a rubare un pizzico di magia al cielo per custodirla in questo posto segreto.</p>
+                    <p>Il 16 maggio 2026 i riflettori si sono accesi delicatamente su di noi ed è iniziato il nostro bellissimo film. Non cerchiamo una sceneggiatura perfetta o priva di errori, perché la poesia più pura sta proprio nei nostri passi di danza improvvisati nel buio, nelle risate nate dal nulla e nei respiri sinceri sospesi nel tempo.</p>
+                    <p>So bene quanto ti emozioni la magia nostalgica di <i>La La Land</i>, quel valzer leggero e senza gravità tra le stelle del Planetario. Ecco, ogni singola volta che incrocio i tuoi occhi mi sento esattamente così: come se il mondo intorno sfumasse e rimanessimo solo noi. Tu porti con te le note eterne, misteriose e affascinanti di <i>Hotel California</i>; io ti rispondo stringendoti forte con la dolcezza autentica di <i>Gabri</i> di Vasco, sussurrandoti al cuore che <i>"adesso c'è una cosa che... che non ti ho detto mai... che sei speciale"</i>.</p>
+                    <p>Grazie per aver dato un significato del tutto nuovo alla parola "noi", per la cura che metti in ogni piccolo istante e per aver reso questi primi due mesi il viaggio più dolce della mia vita.</p>
+                    <p>E se anche questa città di stelle splendesse per miliardi di anni ancora, tra tutte le combinazioni possibili del destino e del tempo...</p>
+                    <p>Io sceglierei ancora te. Stasera, domani, per sempre. ❤️</p>
+                    <p>Buon secondo mesiversario, amore mio.</p>
                 </div>
-
-
             </div>
-
-
-
-            <div class="heartSeal" id="heartSeal">
-                ❤️
-            </div>
-
-
+            <div class="heartSeal" id="heartSeal">❤️</div>
         </div>
-
-
     </section>
 
     <section id="game">
-
         <h2>Insegui la scia del nostro amore ❤️</h2>
-
         <div id="heartGame">
-
             <div id="gameInfo">
-
                 <span>Battiti: <b id="gameScore">0</b></span>
-
                 <span>Tempo: <b id="gameTime">30</b>s</span>
-
             </div>
-
-
-            <button id="startGame">
-
-                Inizia il sogno ❤️
-
-            </button>
-
-
+            <button id="startGame">Inizia il sogno ❤️</button>
             <div id="gameArea"></div>
-
-
             <h3 id="gameResult"></h3>
-
         </div>
-
     </section>
 
     <section id="secret">
-
         <h2>✨ Un desiderio nascosto...</h2>
-
-        <p>
-
-            Ci sono melodie silenziose e sguardi invisibili che aspettano solo che il tuo cuore decida di scoprirli.
-
-        </p>
-
+        <p>Ci sono melodie silenziose e sguardi invisibili che aspettano solo che il tuo cuore decida di scoprirli.</p>
     </section>
 
     <section id="puzzleSection">
-
         <h2>🧩 Ricomponi i nostri momenti</h2>
-
         <p class="puzzle-subtitle">Risolvi il puzzle per sbloccare una dedica speciale di La La Land...</p>
-    
         <div id="puzzleContainer">
-
             <div id="puzzleGrid"></div>
-
         </div>
-
         <div class="puzzle-controls">
-
             <button id="shufflePuzzle">Mescola e Gioca ❤️</button>
-
             <button id="nextPuzzle" class="hidden">Prossima Foto ➡️</button>
         </div>
-
         <div id="puzzleResult">
-
             <h3 id="puzzleQuote"></h3>
-
         </div>
-        
     </section>
 
     <section id="final">
-
-        <h1>
-
-            Ti sceglierei in ogni linea temporale.
-
-        </h1>
-
-        <p>
-
-            Oggi. Domani. Fino all'ultimo accordo del nostro film. Sempre.
-
-        </p>
-
-        <button id="fireworks">
-
-            ❤️
-
-        </button>
-
+        <h1>Ti sceglierei in ogni linea temporale.</h1>
+        <p>Oggi. Domani. Fino all'ultimo accordo del nostro film. Sempre.</p>
+        <button id="fireworks" aria-label="Lancia fuochi d'artificio">❤️</button>
     </section>
 
+    <div id="hiddenStar" aria-label="Stella segreta"></div>
+
     <script src="java.js"></script>
-
 </body>
-
 </html>
